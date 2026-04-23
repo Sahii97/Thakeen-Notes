@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppStore } from './store';
 import { EditorCanvas } from './components/EditorCanvas';
 import { RightSidebar } from './components/RightSidebar';
@@ -10,6 +10,14 @@ export default function App() {
   const [rightSidebarOpen, setRightSidebarOpen] = useState(true);
   
   const { settings } = useAppStore();
+
+  useEffect(() => {
+    if (settings.darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [settings.darkMode]);
 
   const fontFeatures = [
     settings.openType.salt && '"salt" 1',

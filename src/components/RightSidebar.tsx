@@ -68,7 +68,10 @@ export function RightSidebar({ onClose }: { onClose?: () => void }) {
               }`}
             >
               <div className="pr-1">
-                <h3 className={`font-medium mb-1 text-sm truncate ${isActive ? 'font-bold' : ''}`}>
+                <h3 
+                  className={`font-medium mb-1 text-sm truncate ${isActive ? 'font-bold' : ''}`}
+                  style={{ fontFamily: settings.titleFontFamily }}
+                >
                   {note.title.trim() === '' ? 'ملاحظة بدون عنوان' : note.title}
                 </h3>
                 <p className="text-xs text-[var(--text-secondary)]">{dateString}</p>

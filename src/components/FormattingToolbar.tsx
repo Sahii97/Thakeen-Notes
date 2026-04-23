@@ -7,8 +7,7 @@ import {
   Quote, 
   Bold, 
   Italic, 
-  Underline as UnderlineIcon,
-  Sparkles
+  Underline as UnderlineIcon
 } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { useAppStore } from '../store';
@@ -77,13 +76,6 @@ export function FormattingToolbar({ editor }: { editor: Editor }) {
       label: 'Underline',
       isActive: editor.isActive('underline'),
       onClick: () => editor.chain().focus().toggleUnderline().run(),
-    },
-    { divider: true },
-    {
-      icon: <Sparkles size={18} className="text-amber-500" />,
-      label: 'Salt Style (Title Look)',
-      isActive: editor.isActive('saltMark'),
-      onClick: () => editor.chain().focus().toggleSalt().run(),
     },
   ];
 

@@ -127,6 +127,11 @@ export function EditorCanvas({ rightSidebarOpen, toggleRightSidebar, toggleLeftS
 
         {/* Left side controls */}
         <div className="flex items-center gap-2 shrink-0 mt-1">
+          {!readOnly && (
+            <div className="hidden lg:flex items-center gap-1 bg-[var(--bg-paper)] rounded-xl border border-[var(--border-color)] p-1 ml-2">
+              <FormattingToolbar editor={editor} />
+            </div>
+          )}
           <button 
             onClick={() => setReadOnly(!readOnly)}
             className="p-2 hover:bg-[#dcd8ce] dark:hover:bg-[#2a2a2a] rounded-lg text-[var(--text-secondary)] transition-colors"
@@ -144,7 +149,7 @@ export function EditorCanvas({ rightSidebarOpen, toggleRightSidebar, toggleLeftS
       </header>
 
       {/* Main Editor Area */}
-      <div className="flex-1 overflow-hidden px-4 md:px-8 lg:px-12 pt-8 pb-0 mt-16 md:mt-20 w-full h-full relative" ref={containerRef}>
+      <div className="flex-1 overflow-hidden px-4 md:px-8 lg:px-12 pt-2 md:pt-4 pb-0 mt-16 w-full h-full relative" ref={containerRef}>
         <div 
           className={cn(
             "w-full h-full overflow-y-auto scrollbar-hide opacity-90",
@@ -166,13 +171,6 @@ export function EditorCanvas({ rightSidebarOpen, toggleRightSidebar, toggleLeftS
           />
         </div>
       </div>
-
-      {/* Floating Toolbar */}
-      {!readOnly && (
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 bg-[var(--bg-sidebar)] border border-[var(--border-color)] rounded-2xl p-1.5 flex items-center gap-1 sidebar-shadow z-20">
-          <FormattingToolbar editor={editor} />
-        </div>
-      )}
     </div>
   );
 }
