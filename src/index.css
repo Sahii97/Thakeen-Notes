@@ -1,0 +1,198 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "ThmanyahSans", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "ThmanyahSerifText", ui-serif, Georgia, serif;
+  --font-display: "ThmanyahSerifDisplay", ui-serif, Georgia, serif;
+}
+
+@layer base {
+  @font-face {
+    font-family: 'ThmanyahSans';
+    src: url('/fonts/thmanyahsans/woff2/thmanyahsans-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'ThmanyahSans';
+    src: url('/fonts/thmanyahsans/woff2/thmanyahsans-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'ThmanyahSans';
+    src: url('/fonts/thmanyahsans/woff2/thmanyahsans-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'ThmanyahSerifText';
+    src: url('/fonts/thmanyahseriftext/woff2/thmanyahseriftext-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'ThmanyahSerifText';
+    src: url('/fonts/thmanyahseriftext/woff2/thmanyahseriftext-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'ThmanyahSerifText';
+    src: url('/fonts/thmanyahseriftext/woff2/thmanyahseriftext-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'ThmanyahSerifDisplay';
+    src: url('/fonts/thmanyahserifdisplay/woff2/thmanyahserifdisplay-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'ThmanyahSerifDisplay';
+    src: url('/fonts/thmanyahserifdisplay/woff2/thmanyahserifdisplay-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'ThmanyahSerifDisplay';
+    src: url('/fonts/thmanyahserifdisplay/woff2/thmanyahserifdisplay-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  :root {
+    --bg-paper-light: #e5e1d8;
+    --bg-sidebar-light: #dcd8ce;
+    --border-color-light: #c9c4b8;
+    --text-primary-light: #1a1a1a;
+    --text-secondary-light: #5a5a5a;
+    --accent-light: #2563eb;
+
+    --bg-paper-dark: #121212;
+    --bg-sidebar-dark: #1a1a1a;
+    --border-color-dark: #333333;
+    --text-primary-dark: #e5e7eb;
+    --text-secondary-dark: #9ca3af;
+    --accent-dark: #3b82f6;
+  }
+
+  .dark {
+    --bg-paper: var(--bg-paper-dark);
+    --bg-sidebar: var(--bg-sidebar-dark);
+    --border-color: var(--border-color-dark);
+    --text-primary: var(--text-primary-dark);
+    --text-secondary: var(--text-secondary-dark);
+    --accent: var(--accent-dark);
+    color-scheme: dark;
+  }
+
+  :root {
+    --bg-paper: var(--bg-paper-light);
+    --bg-sidebar: var(--bg-sidebar-light);
+    --border-color: var(--border-color-light);
+    --text-primary: var(--text-primary-light);
+    --text-secondary: var(--text-secondary-light);
+    --accent: var(--accent-light);
+  }
+
+  body {
+    background-color: var(--bg-paper);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+}
+
+@layer utilities {
+  .lined-paper {
+    background-image: linear-gradient(var(--border-color) 1px, transparent 1px);
+    /* Background size is set dynamically via inline styles */
+  }
+
+  .sidebar-shadow {
+    box-shadow: 0 0 40px rgba(0,0,0,0.03);
+  }
+
+  .custom-range::-webkit-slider-runnable-track {
+    background: var(--border-color);
+    height: 4px;
+    border-radius: 4px;
+  }
+
+  .custom-range::-webkit-slider-thumb {
+    appearance: none;
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    background: var(--text-primary);
+    margin-top: -4px;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+.ProseMirror {
+  outline: none;
+  min-height: 100vh;
+  text-align: right;
+  direction: rtl;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: right;
+  color: var(--text-secondary);
+  pointer-events: none;
+  height: 0;
+}
+
+.ProseMirror h1 {
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 0.5em;
+}
+
+.ProseMirror h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 0.5em;
+}
+
+.ProseMirror ul {
+  list-style-type: disc;
+  padding-right: 1.5em;
+  margin-bottom: 1em;
+}
+
+.ProseMirror ol {
+  list-style-type: decimal;
+  padding-right: 1.5em;
+  margin-bottom: 1em;
+}
+
+.ProseMirror blockquote {
+  border-right: 3px solid var(--border-color);
+  padding-right: 1em;
+  margin-right: 0;
+  margin-bottom: 1em;
+  opacity: 0.8;
+}
