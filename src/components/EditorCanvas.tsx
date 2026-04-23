@@ -141,10 +141,10 @@ export function EditorCanvas({ rightSidebarOpen, toggleRightSidebar, toggleLeftS
       </header>
 
       {/* Main Editor Area */}
-      <div className="flex-1 overflow-hidden p-12 mt-16 w-full h-full relative" ref={containerRef}>
+      <div className="flex-1 overflow-hidden px-4 sm:px-8 md:px-16 pt-8 pb-0 mt-16 w-full h-full relative" ref={containerRef}>
         <div 
           className={cn(
-            "max-w-2xl mx-auto h-full overflow-y-auto scrollbar-hide opacity-90",
+            "w-full h-full overflow-y-auto scrollbar-hide opacity-90",
             settings.layout === 'lined' ? "lined-paper" : ""
           )}
           style={{

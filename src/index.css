@@ -9,21 +9,21 @@
 @layer base {
   @font-face {
     font-family: 'ThmanyahSans';
-    src: url('/fonts/thmanyahsans/woff2/thmanyahsans-Regular.woff2') format('woff2');
+    src: url('./fonts/thmanyahsans/woff2/thmanyahsans-Regular.woff2') format('woff2');
     font-weight: 400;
     font-style: normal;
     font-display: swap;
   }
   @font-face {
     font-family: 'ThmanyahSans';
-    src: url('/fonts/thmanyahsans/woff2/thmanyahsans-Medium.woff2') format('woff2');
+    src: url('./fonts/thmanyahsans/woff2/thmanyahsans-Medium.woff2') format('woff2');
     font-weight: 500;
     font-style: normal;
     font-display: swap;
   }
   @font-face {
     font-family: 'ThmanyahSans';
-    src: url('/fonts/thmanyahsans/woff2/thmanyahsans-Bold.woff2') format('woff2');
+    src: url('./fonts/thmanyahsans/woff2/thmanyahsans-Bold.woff2') format('woff2');
     font-weight: 700;
     font-style: normal;
     font-display: swap;
@@ -31,21 +31,21 @@
 
   @font-face {
     font-family: 'ThmanyahSerifText';
-    src: url('/fonts/thmanyahseriftext/woff2/thmanyahseriftext-Regular.woff2') format('woff2');
+    src: url('./fonts/thmanyahseriftext/woff2/thmanyahseriftext-Regular.woff2') format('woff2');
     font-weight: 400;
     font-style: normal;
     font-display: swap;
   }
   @font-face {
     font-family: 'ThmanyahSerifText';
-    src: url('/fonts/thmanyahseriftext/woff2/thmanyahseriftext-Medium.woff2') format('woff2');
+    src: url('./fonts/thmanyahseriftext/woff2/thmanyahseriftext-Medium.woff2') format('woff2');
     font-weight: 500;
     font-style: normal;
     font-display: swap;
   }
   @font-face {
     font-family: 'ThmanyahSerifText';
-    src: url('/fonts/thmanyahseriftext/woff2/thmanyahseriftext-Bold.woff2') format('woff2');
+    src: url('./fonts/thmanyahseriftext/woff2/thmanyahseriftext-Bold.woff2') format('woff2');
     font-weight: 700;
     font-style: normal;
     font-display: swap;
@@ -53,21 +53,21 @@
 
   @font-face {
     font-family: 'ThmanyahSerifDisplay';
-    src: url('/fonts/thmanyahserifdisplay/woff2/thmanyahserifdisplay-Regular.woff2') format('woff2');
+    src: url('./fonts/thmanyahserifdisplay/woff2/thmanyahserifdisplay-Regular.woff2') format('woff2');
     font-weight: 400;
     font-style: normal;
     font-display: swap;
   }
   @font-face {
     font-family: 'ThmanyahSerifDisplay';
-    src: url('/fonts/thmanyahserifdisplay/woff2/thmanyahserifdisplay-Medium.woff2') format('woff2');
+    src: url('./fonts/thmanyahserifdisplay/woff2/thmanyahserifdisplay-Medium.woff2') format('woff2');
     font-weight: 500;
     font-style: normal;
     font-display: swap;
   }
   @font-face {
     font-family: 'ThmanyahSerifDisplay';
-    src: url('/fonts/thmanyahserifdisplay/woff2/thmanyahserifdisplay-Bold.woff2') format('woff2');
+    src: url('./fonts/thmanyahserifdisplay/woff2/thmanyahserifdisplay-Bold.woff2') format('woff2');
     font-weight: 700;
     font-style: normal;
     font-display: swap;
