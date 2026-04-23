@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { useAppStore } from './store';
 import { EditorCanvas } from './components/EditorCanvas';
 import { RightSidebar } from './components/RightSidebar';
@@ -80,6 +81,7 @@ export default function App() {
           onClick={() => setRightSidebarOpen(false)} 
         />
       )}
+      <Analytics />
     </div>
   );
 }
