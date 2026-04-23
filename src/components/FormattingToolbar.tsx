@@ -12,7 +12,7 @@ import {
 import { cn } from '../lib/utils';
 import { useAppStore } from '../store';
 
-export function FormattingToolbar({ editor }: { editor: Editor }) {
+export function FormattingToolbar({ editor, vertical }: { editor: Editor, vertical?: boolean }) {
   const { settings } = useAppStore();
   
   if (!editor) {
@@ -83,7 +83,7 @@ export function FormattingToolbar({ editor }: { editor: Editor }) {
     <>
       {tools.map((tool, idx) => {
         if (tool.divider) {
-          return <div key={`div-${idx}`} className="w-[1px] h-6 bg-[var(--border-color)] mx-1" />;
+          return <div key={`div-${idx}`} className={cn("bg-[var(--border-color)]", vertical ? "h-[1px] w-full my-1 bg-black/10 dark:bg-white/10" : "w-[1px] h-6 mx-1")} />;
         }
         
         return (
@@ -91,10 +91,11 @@ export function FormattingToolbar({ editor }: { editor: Editor }) {
             key={tool.label}
             onClick={tool.onClick}
             className={cn(
-              "p-2 rounded-xl transition-colors",
+              "p-2 rounded-xl transition-colors flex justify-center items-center",
+              vertical ? "w-full" : "",
               tool.isActive 
                 ? "bg-[var(--text-primary)] text-[var(--bg-paper)] font-bold" 
-                : "text-[var(--text-primary)] hover:bg-[var(--bg-paper)] hover:text-black dark:hover:text-white"
+                : "text-[var(--text-primary)] hover:bg-[#dcd8ce] dark:hover:bg-[#2a2a2a] hover:text-black dark:hover:text-white"
             )}
             title={tool.label}
           >
@@ -103,10 +104,10 @@ export function FormattingToolbar({ editor }: { editor: Editor }) {
         );
       })}
 
-      <div className="w-[1px] h-6 bg-[var(--border-color)] mx-1" />
+      <div className={cn("bg-[var(--border-color)]", vertical ? "h-[1px] w-full my-1 bg-black/10 dark:bg-white/10" : "w-[1px] h-6 mx-1")} />
 
       {/* Colors */}
-      <div className="flex gap-2 px-2">
+      <div className={cn("flex gap-2", vertical ? "flex-wrap justify-center border-t border-black/10 dark:border-white/10 pt-2 pb-1" : "px-2")}>
         {colors.map((color) => {
           const isColorActive = editor.isActive('textStyle', { color: color.value }) || 
                                 (editor.isActive('textStyle') === false && color.label === 'Default');

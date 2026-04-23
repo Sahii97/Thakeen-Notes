@@ -10,7 +10,12 @@ export function RightSidebar({ onClose }: { onClose?: () => void }) {
     <div className="flex flex-col h-full bg-[var(--bg-sidebar)] text-[var(--text-primary)]">
       {/* Header */}
       <div className="p-6 flex justify-between items-center bg-[var(--bg-sidebar)]">
-        <h1 className="text-2xl font-bold font-serif tracking-tight">ذكين</h1>
+        <h1 
+          className="text-2xl font-bold tracking-tight"
+          style={{ fontFamily: settings.titleFontFamily, fontFeatureSettings: '"salt" 1' }}
+        >
+          ملاحظات ذكين
+        </h1>
         <div className="flex items-center gap-2">
           <button 
             onClick={toggleDarkMode}
@@ -70,7 +75,7 @@ export function RightSidebar({ onClose }: { onClose?: () => void }) {
               <div className="pr-1">
                 <h3 
                   className={`font-medium mb-1 text-sm truncate ${isActive ? 'font-bold' : ''}`}
-                  style={{ fontFamily: settings.titleFontFamily }}
+                  style={{ fontFamily: settings.titleFontFamily, fontFeatureSettings: 'normal' }}
                 >
                   {note.title.trim() === '' ? 'ملاحظة بدون عنوان' : note.title}
                 </h3>

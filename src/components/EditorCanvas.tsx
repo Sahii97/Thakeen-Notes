@@ -7,7 +7,7 @@ import { Underline } from '@tiptap/extension-underline';
 import { FormattingToolbar } from './FormattingToolbar';
 import { useAppStore } from '../store';
 import { useEffect, useState, useRef } from 'react';
-import { PanelRight, Lock, Unlock, Settings2 } from 'lucide-react';
+import { PanelRight, Lock, Unlock, Settings2, Type } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { SaltMark } from '../extensions/SaltMark';
 import TextareaAutosize from 'react-textarea-autosize';
@@ -22,6 +22,7 @@ export function EditorCanvas({ rightSidebarOpen, toggleRightSidebar, toggleLeftS
   const { notes, activeNoteId, updateNote, settings } = useAppStore();
   const activeNote = notes.find((n) => n.id === activeNoteId) || notes[0];
   const [readOnly, setReadOnly] = useState(false);
+  const [isToolbarOpen, setIsToolbarOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const fontFeatures = [
@@ -128,8 +129,23 @@ export function EditorCanvas({ rightSidebarOpen, toggleRightSidebar, toggleLeftS
         {/* Left side controls */}
         <div className="flex items-center gap-2 shrink-0 mt-1">
           {!readOnly && (
-            <div className="hidden lg:flex items-center gap-1 bg-[var(--bg-paper)] rounded-xl border border-[var(--border-color)] p-1 ml-2">
-              <FormattingToolbar editor={editor} />
+            <div className="relative ml-2">
+              <button 
+                onClick={() => setIsToolbarOpen(!isToolbarOpen)}
+                className={cn(
+                  "p-2 rounded-lg transition-colors",
+                  isToolbarOpen ? "bg-[#dcd8ce] dark:bg-[#2a2a2a] text-[var(--text-primary)]" : "text-[var(--text-secondary)] hover:bg-[#dcd8ce] dark:hover:bg-[#2a2a2a] hover:text-[var(--text-primary)]"
+                )}
+                title="تنسيق النص"
+              >
+                <Type size={20} />
+              </button>
+              
+              {isToolbarOpen && (
+                <div className="absolute top-full left-0 mt-2 flex flex-col items-center gap-1 bg-[var(--bg-paper)] rounded-xl border border-[var(--border-color)] p-2 shadow-xl z-50 min-w-[3rem]">
+                  <FormattingToolbar editor={editor} vertical />
+                </div>
+              )}
             </div>
           )}
           <button 
