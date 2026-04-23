@@ -110,16 +110,6 @@
     --accent-dark: #3b82f6;
   }
 
-  .dark {
-    --bg-paper: var(--bg-paper-dark);
-    --bg-sidebar: var(--bg-sidebar-dark);
-    --border-color: var(--border-color-dark);
-    --text-primary: var(--text-primary-dark);
-    --text-secondary: var(--text-secondary-dark);
-    --accent: var(--accent-dark);
-    color-scheme: dark;
-  }
-
   :root {
     --bg-paper: var(--bg-paper-light);
     --bg-sidebar: var(--bg-sidebar-light);
@@ -127,6 +117,16 @@
     --text-primary: var(--text-primary-light);
     --text-secondary: var(--text-secondary-light);
     --accent: var(--accent-light);
+  }
+
+  :root.dark {
+    --bg-paper: var(--bg-paper-dark);
+    --bg-sidebar: var(--bg-sidebar-dark);
+    --border-color: var(--border-color-dark);
+    --text-primary: var(--text-primary-dark);
+    --text-secondary: var(--text-secondary-dark);
+    --accent: var(--accent-dark);
+    color-scheme: dark;
   }
 
   body {
