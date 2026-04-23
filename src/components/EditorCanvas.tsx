@@ -10,6 +10,7 @@ import { useEffect, useState, useRef } from 'react';
 import { PanelRight, Lock, Unlock, Settings2 } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { SaltMark } from '../extensions/SaltMark';
+import TextareaAutosize from 'react-textarea-autosize';
 
 interface EditorCanvasProps {
   rightSidebarOpen: boolean;
@@ -104,17 +105,19 @@ export function EditorCanvas({ rightSidebarOpen, toggleRightSidebar, toggleLeftS
         <div className="flex items-center gap-2 md:gap-4 flex-1 min-w-0 h-full">
           <button 
             onClick={toggleRightSidebar}
-            className="p-2 hover:bg-[#dcd8ce] dark:hover:bg-[#2a2a2a] rounded-lg text-inherit transition-colors shrink-0"
+            className="p-2 hover:bg-[#dcd8ce] dark:hover:bg-[#2a2a2a] rounded-lg text-inherit transition-colors shrink-0 mt-1"
           >
             <PanelRight size={20} className={rightSidebarOpen ? 'opacity-50' : 'opacity-100'} />
           </button>
           
-          <input 
-            className="bg-transparent border-none text-xl md:text-2xl font-bold focus:ring-0 w-full min-w-0 outline-none text-[var(--text-primary)] px-2 h-full placeholder:text-[var(--text-secondary)] placeholder:opacity-50"
+          <TextareaAutosize 
+            className="bg-transparent border-none text-xl md:text-2xl font-bold focus:ring-0 w-full min-w-0 outline-none text-[var(--text-primary)] px-2 placeholder:text-[var(--text-secondary)] placeholder:opacity-50 resize-none py-4"
             value={activeNote.title}
             onChange={(e) => updateNote(activeNote.id, { title: e.target.value })}
             readOnly={readOnly}
             placeholder="عنوان الملاحظة"
+            minRows={1}
+            maxRows={2}
             style={{ 
               fontFamily: settings.titleFontFamily,
               fontFeatureSettings: fontFeatures || 'normal',
@@ -123,7 +126,7 @@ export function EditorCanvas({ rightSidebarOpen, toggleRightSidebar, toggleLeftS
         </div>
 
         {/* Left side controls */}
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex items-center gap-2 shrink-0 mt-1">
           <button 
             onClick={() => setReadOnly(!readOnly)}
             className="p-2 hover:bg-[#dcd8ce] dark:hover:bg-[#2a2a2a] rounded-lg text-[var(--text-secondary)] transition-colors"
@@ -141,7 +144,7 @@ export function EditorCanvas({ rightSidebarOpen, toggleRightSidebar, toggleLeftS
       </header>
 
       {/* Main Editor Area */}
-      <div className="flex-1 overflow-hidden px-4 sm:px-8 md:px-16 pt-8 pb-0 mt-16 w-full h-full relative" ref={containerRef}>
+      <div className="flex-1 overflow-hidden px-4 md:px-8 lg:px-12 pt-8 pb-0 mt-16 md:mt-20 w-full h-full relative" ref={containerRef}>
         <div 
           className={cn(
             "w-full h-full overflow-y-auto scrollbar-hide opacity-90",
