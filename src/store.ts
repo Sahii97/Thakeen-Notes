@@ -9,14 +9,14 @@ export interface Note {
 
 export interface AppSettings {
   darkMode: boolean;
-  titleFontFamily: 'ThmanyahSans' | 'ThmanyahSerifText' | 'ThmanyahSerifDisplay';
   fontFamily: 'ThmanyahSans' | 'ThmanyahSerifText' | 'ThmanyahSerifDisplay';
   fontWeight: number;
   layout: 'blank' | 'lined';
   baseFontSize: number;
   lineHeight: number;
   openType: {
-    salt: boolean;
+    saltTitle: boolean;
+    saltBody: boolean;
     ss01: boolean;
     ss02: boolean;
     ss03: boolean;
@@ -27,14 +27,14 @@ export interface AppSettings {
 
 const DEFAULT_SETTINGS: AppSettings = {
   darkMode: false,
-  titleFontFamily: 'ThmanyahSerifDisplay',
   fontFamily: 'ThmanyahSerifText',
   fontWeight: 400,
   layout: 'blank',
   baseFontSize: 24,
   lineHeight: 1.8,
   openType: {
-    salt: false,
+    saltTitle: false,
+    saltBody: false,
     ss01: false,
     ss02: false,
     ss03: false,
@@ -46,7 +46,7 @@ const DEFAULT_SETTINGS: AppSettings = {
 const DEFAULT_NOTE: Note = {
   id: 'welcome-note',
   title: 'مرحباً بك في ذكين',
-  content: '<p><strong>ذكين</strong> هو تطبيق لتدوين الملاحظات، مستوحى من جماليات التحرير العربي.</p><p></p><p>يمكنك تخصيص الخطوط والمسافات من القائمة الجانبية لتجربة قراءة وكتابة مريحة.</p>',
+  content: '<p><strong>ذكين</strong> هو تطبيق لتدوين الملاحظات، مستوحى من جماليات التحرير العربي.</p><p></p><p>ملاحظاتك تُحفظ محلياً في متصفحك الحالي، لضمان بقاء أفكارك خاصة وآمنة.</p><p></p><p>يمكنك تخصيص الخطوط والمسافات من القائمة الجانبية لتجربة قراءة وكتابة مريحة.</p>',
   updatedAt: Date.now(),
 };
 
@@ -77,7 +77,15 @@ export const useAppStore = create<AppStoreState>((set, get) => {
   let initialSettings = DEFAULT_SETTINGS;
   if (savedSettings) {
     try {
-      initialSettings = { ...DEFAULT_SETTINGS, ...JSON.parse(savedSettings) };
+      const parsed = JSON.parse(savedSettings);
+      initialSettings = { 
+        ...DEFAULT_SETTINGS, 
+        ...parsed,
+        openType: {
+          ...DEFAULT_SETTINGS.openType,
+          ...(parsed.openType || {})
+        }
+      };
     } catch (e) {
       console.error('Failed to parse settings', e);
     }

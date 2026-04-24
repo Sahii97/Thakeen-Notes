@@ -4,6 +4,7 @@ import { EditorCanvas } from './components/EditorCanvas';
 import { RightSidebar } from './components/RightSidebar';
 import { LeftSidebar } from './components/LeftSidebar';
 import { cn } from './lib/utils';
+import { Analytics } from '@vercel/analytics/react';
 
 export default function App() {
   const [leftSidebarOpen, setLeftSidebarOpen] = useState(false);
@@ -18,15 +19,6 @@ export default function App() {
       document.documentElement.classList.remove('dark');
     }
   }, [settings.darkMode]);
-
-  const fontFeatures = [
-    settings.openType.salt && '"salt" 1',
-    settings.openType.ss01 && '"ss01" 1',
-    settings.openType.ss02 && '"ss02" 1',
-    settings.openType.ss03 && '"ss03" 1',
-    settings.openType.ss04 && '"ss04" 1',
-    settings.openType.ss05 && '"ss05" 1',
-  ].filter(Boolean).join(', ');
 
   return (
     <div 
@@ -48,9 +40,6 @@ export default function App() {
 
       <main 
         className="flex-1 h-full flex flex-col relative bg-[var(--bg-paper)] overflow-hidden"
-        style={{
-          fontFeatureSettings: fontFeatures || 'normal',
-        }}
       >
         <EditorCanvas 
           rightSidebarOpen={rightSidebarOpen}
@@ -80,6 +69,7 @@ export default function App() {
           onClick={() => setRightSidebarOpen(false)} 
         />
       )}
+      <Analytics />
     </div>
   );
 }

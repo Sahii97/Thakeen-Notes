@@ -12,7 +12,17 @@ export function RightSidebar({ onClose }: { onClose?: () => void }) {
       <div className="p-6 flex justify-between items-center bg-[var(--bg-sidebar)]">
         <h1 
           className="text-2xl font-bold tracking-tight"
-          style={{ fontFamily: settings.titleFontFamily, fontFeatureSettings: '"salt" 1' }}
+          style={{ 
+            fontFamily: settings.fontFamily, 
+            fontFeatureSettings: [
+              settings.openType.saltTitle && '"salt" 1',
+              settings.openType.ss01 && '"ss01" 1',
+              settings.openType.ss02 && '"ss02" 1',
+              settings.openType.ss03 && '"ss03" 1',
+              settings.openType.ss04 && '"ss04" 1',
+              settings.openType.ss05 && '"ss05" 1',
+            ].filter(Boolean).join(', ') || 'normal'
+          }}
         >
           ملاحظات ذكين
         </h1>
@@ -75,7 +85,17 @@ export function RightSidebar({ onClose }: { onClose?: () => void }) {
               <div className="pr-1">
                 <h3 
                   className={`font-medium mb-1 text-sm truncate ${isActive ? 'font-bold' : ''}`}
-                  style={{ fontFamily: settings.titleFontFamily, fontFeatureSettings: 'normal' }}
+                  style={{ 
+                    fontFamily: settings.fontFamily, 
+                    fontFeatureSettings: [
+                      settings.openType.saltTitle && '"salt" 1',
+                      settings.openType.ss01 && '"ss01" 1',
+                      settings.openType.ss02 && '"ss02" 1',
+                      settings.openType.ss03 && '"ss03" 1',
+                      settings.openType.ss04 && '"ss04" 1',
+                      settings.openType.ss05 && '"ss05" 1',
+                    ].filter(Boolean).join(', ') || 'normal'
+                  }}
                 >
                   {note.title.trim() === '' ? 'ملاحظة بدون عنوان' : note.title}
                 </h3>

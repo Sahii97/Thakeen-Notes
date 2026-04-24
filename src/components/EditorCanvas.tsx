@@ -9,7 +9,6 @@ import { useAppStore } from '../store';
 import { useEffect, useState, useRef } from 'react';
 import { PanelRight, Lock, Unlock, Settings2, Type } from 'lucide-react';
 import { cn } from '../lib/utils';
-import { SaltMark } from '../extensions/SaltMark';
 import TextareaAutosize from 'react-textarea-autosize';
 
 interface EditorCanvasProps {
@@ -25,8 +24,17 @@ export function EditorCanvas({ rightSidebarOpen, toggleRightSidebar, toggleLeftS
   const [isToolbarOpen, setIsToolbarOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const fontFeatures = [
-    settings.openType.salt && '"salt" 1',
+  const fontFeaturesTitle = [
+    settings.openType.saltTitle && '"salt" 1',
+    settings.openType.ss01 && '"ss01" 1',
+    settings.openType.ss02 && '"ss02" 1',
+    settings.openType.ss03 && '"ss03" 1',
+    settings.openType.ss04 && '"ss04" 1',
+    settings.openType.ss05 && '"ss05" 1',
+  ].filter(Boolean).join(', ');
+
+  const fontFeaturesBody = [
+    settings.openType.saltBody && '"salt" 1',
     settings.openType.ss01 && '"ss01" 1',
     settings.openType.ss02 && '"ss02" 1',
     settings.openType.ss03 && '"ss03" 1',
@@ -46,7 +54,6 @@ export function EditorCanvas({ rightSidebarOpen, toggleRightSidebar, toggleLeftS
       TextStyle,
       Color,
       Underline,
-      SaltMark,
     ],
     content: activeNote?.content || '',
     editable: !readOnly,
@@ -73,6 +80,24 @@ export function EditorCanvas({ rightSidebarOpen, toggleRightSidebar, toggleLeftS
     }
   }, [readOnly, editor]);
 
+  // Handle keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.shiftKey && e.key.toLowerCase() === 'j') {
+        e.preventDefault();
+        useAppStore.getState().updateSettings({
+          openType: {
+            ...useAppStore.getState().settings.openType,
+            saltBody: !useAppStore.getState().settings.openType.saltBody,
+          }
+        });
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   if (!editor || !activeNote) {
     return null;
   }
@@ -93,9 +118,8 @@ export function EditorCanvas({ rightSidebarOpen, toggleRightSidebar, toggleLeftS
       ref={containerRef}
     >
       <style>{`
-        .salt-text-mark {
-          font-family: ${settings.titleFontFamily} !important;
-          font-feature-settings: "salt" 1, ${fontFeatures || 'normal'} !important;
+        .ProseMirror {
+          font-feature-settings: ${fontFeaturesBody || 'normal'} !important;
         }
       `}</style>
       
@@ -120,8 +144,8 @@ export function EditorCanvas({ rightSidebarOpen, toggleRightSidebar, toggleLeftS
             minRows={1}
             maxRows={2}
             style={{ 
-              fontFamily: settings.titleFontFamily,
-              fontFeatureSettings: fontFeatures || 'normal',
+              fontFamily: settings.fontFamily,
+              fontFeatureSettings: fontFeaturesTitle || 'normal',
             }}
           />
         </div>
@@ -175,7 +199,7 @@ export function EditorCanvas({ rightSidebarOpen, toggleRightSidebar, toggleLeftS
             backgroundSize: `100% calc(${settings.baseFontSize}px * ${settings.lineHeight})`,
             fontSize: `${settings.baseFontSize}px`,
             lineHeight: settings.lineHeight,
-            fontFeatureSettings: fontFeatures || 'normal',
+            fontFeatureSettings: fontFeaturesBody || 'normal',
             fontFamily: settings.fontFamily,
             fontWeight: settings.fontWeight,
             paddingTop: `calc(${settings.baseFontSize * settings.lineHeight}px * 1 - ${settings.baseFontSize * 0.2}px)`, /* adjust manually to align text to grid */

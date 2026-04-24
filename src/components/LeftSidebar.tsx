@@ -20,18 +20,7 @@ export function LeftSidebar({ onClose }: { onClose: () => void }) {
       <div className="p-6 space-y-8 overflow-y-auto flex-1 scrollbar-hide">
         {/* Typography */}
         <section>
-          <label className="text-xs block mb-3 text-[var(--text-secondary)]">خط العنوان</label>
-          <select 
-            className="w-full bg-[var(--bg-paper)] border border-[var(--border-color)] rounded-xl p-2.5 text-sm outline-none cursor-pointer mb-4"
-            value={settings.titleFontFamily}
-            onChange={(e) => updateSettings({ titleFontFamily: e.target.value as any })}
-          >
-            <option value="ThmanyahSans">ثمانية نَصِيّ (Sans)</option>
-            <option value="ThmanyahSerifText">ثمانية مقروء (Serif Text)</option>
-            <option value="ThmanyahSerifDisplay">ثمانية عناوين (Serif Display)</option>
-          </select>
-
-          <label className="text-xs block mb-3 text-[var(--text-secondary)]">خط المحتوى</label>
+          <label className="text-xs block mb-3 text-[var(--text-secondary)]">الخط</label>
           <select 
             className="w-full bg-[var(--bg-paper)] border border-[var(--border-color)] rounded-xl p-2.5 text-sm outline-none cursor-pointer"
             value={settings.fontFamily}
@@ -116,14 +105,24 @@ export function LeftSidebar({ onClose }: { onClose: () => void }) {
           <div className="space-y-2">
             <div 
               className="flex items-center justify-between p-2 rounded-lg bg-[var(--bg-paper)] border border-[var(--border-color)] cursor-pointer"
-              onClick={() => updateSettings({ openType: { ...settings.openType, salt: !settings.openType.salt } })}
+              onClick={() => updateSettings({ openType: { ...settings.openType, saltTitle: !settings.openType.saltTitle } })}
             >
-              <span className="text-[10px] uppercase font-bold">Salt</span>
-              <div className={`w-8 h-4 rounded-full relative transition-colors ${settings.openType.salt ? 'bg-green-600' : 'bg-[var(--border-color)]'}`}>
-                <div className={`absolute top-1 w-2 h-2 bg-white rounded-full transition-all ${settings.openType.salt ? 'right-1' : 'left-1'}`}></div>
+              <span className="text-[10px] uppercase font-bold">Salt (العنوان)</span>
+              <div className={`w-8 h-4 rounded-full relative transition-colors ${settings.openType.saltTitle ? 'bg-green-600' : 'bg-[var(--border-color)]'}`}>
+                <div className={`absolute top-1 w-2 h-2 bg-white rounded-full transition-all ${settings.openType.saltTitle ? 'right-1' : 'left-1'}`}></div>
               </div>
             </div>
-            
+
+            <div 
+              className="flex items-center justify-between p-2 rounded-lg bg-[var(--bg-paper)] border border-[var(--border-color)] cursor-pointer"
+              onClick={() => updateSettings({ openType: { ...settings.openType, saltBody: !settings.openType.saltBody } })}
+            >
+              <span className="text-[10px] uppercase font-bold">Salt (المحتوى)</span>
+              <div className={`w-8 h-4 rounded-full relative transition-colors ${settings.openType.saltBody ? 'bg-green-600' : 'bg-[var(--border-color)]'}`}>
+                <div className={`absolute top-1 w-2 h-2 bg-white rounded-full transition-all ${settings.openType.saltBody ? 'right-1' : 'left-1'}`}></div>
+              </div>
+            </div>
+
             <div 
               className="flex items-center justify-between p-2 rounded-lg bg-[var(--bg-paper)] border border-[var(--border-color)] cursor-pointer"
               onClick={() => updateSettings({ openType: { ...settings.openType, ss01: !settings.openType.ss01 } })}  
