@@ -139,8 +139,16 @@
 
 @layer utilities {
   .lined-paper {
-    background-image: linear-gradient(var(--border-color) 1px, transparent 1px);
-    /* Background size is set dynamically via inline styles */
+    background-image: linear-gradient(transparent calc(100% - 1px), var(--border-color) 1px);
+  }
+  
+  .dotted-paper {
+    background-image: radial-gradient(var(--border-color) 1.5px, transparent 1.5px);
+  }
+
+  .ProseMirror s, .ProseMirror strike {
+    text-decoration: line-through;
+    text-decoration-thickness: 1.5px;
   }
 
   .sidebar-shadow {
@@ -208,6 +216,89 @@
   list-style-type: decimal;
   padding-right: 1.5em;
   margin-bottom: 1em;
+}
+
+ul[data-type="taskList"] {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 1em;
+}
+
+ul[data-type="taskList"] p {
+  margin: 0;
+  outline: none;
+}
+
+ul[data-type="taskList"] li {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 0.75em;
+  gap: 0.75rem;
+  transition: opacity 0.2s ease;
+}
+
+ul[data-type="taskList"] li > label {
+  flex: 0 0 auto;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.15em;
+}
+
+ul[data-type="taskList"] li > div {
+  flex: 1 1 auto;
+}
+
+ul[data-type="taskList"] input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 1.4em;
+  height: 1.4em;
+  border: 2px solid var(--border-color);
+  border-radius: 50%;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+ul[data-type="taskList"] input[type="checkbox"]:checked {
+  background-color: var(--accent);
+  border-color: var(--accent);
+}
+
+ul[data-type="taskList"] input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  width: 4px;
+  height: 9px;
+  border: solid white;
+  border-width: 0 2.5px 2.5px 0;
+  transform: translate(-50%, -50%) rotate(45deg);
+  border-radius: 1px;
+}
+
+ul[data-type="taskList"] li[data-checked="true"] {
+  opacity: 0.6;
+}
+
+ul[data-type="taskList"] li[data-checked="true"] > div {
+  color: var(--text-secondary);
+  text-decoration: line-through;
+  text-decoration-thickness: 1.5px;
+  text-decoration-color: var(--text-secondary);
+}
+
+.ProseMirror a {
+  color: var(--text-primary);
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 .ProseMirror blockquote {

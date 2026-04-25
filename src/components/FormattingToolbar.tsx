@@ -4,10 +4,12 @@ import {
   Heading2, 
   List, 
   ListOrdered, 
+  CheckSquare,
   Quote, 
   Bold, 
   Italic, 
-  Underline as UnderlineIcon
+  Underline as UnderlineIcon,
+  Strikethrough
 } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { useAppStore } from '../store';
@@ -39,6 +41,12 @@ export function FormattingToolbar({ editor, vertical }: { editor: Editor, vertic
       label: 'H2',
       isActive: editor.isActive('heading', { level: 2 }),
       onClick: () => editor.chain().focus().toggleHeading({ level: 2 }).run(),
+    },
+    {
+      icon: <CheckSquare size={18} />,
+      label: 'Task List',
+      isActive: editor.isActive('taskList'),
+      onClick: () => editor.chain().focus().toggleTaskList().run(),
     },
     {
       icon: <List size={18} />,
@@ -76,6 +84,12 @@ export function FormattingToolbar({ editor, vertical }: { editor: Editor, vertic
       label: 'Underline',
       isActive: editor.isActive('underline'),
       onClick: () => editor.chain().focus().toggleUnderline().run(),
+    },
+    {
+      icon: <Strikethrough size={18} />,
+      label: 'Strike',
+      isActive: editor.isActive('strike'),
+      onClick: () => editor.chain().focus().toggleStrike().run(),
     },
   ];
 
@@ -134,5 +148,57 @@ export function FormattingToolbar({ editor, vertical }: { editor: Editor, vertic
         })}
       </div>
     </>
+  );
+}
+
+export function FloatingSlashMenu({ editor }: { editor: Editor }) {
+  if (!editor) return null;
+
+  const slashCommands = [
+    {
+      icon: <Heading1 size={18} />,
+      label: 'عنوان رئيسي 1',
+      command: () => editor.chain().focus().toggleHeading({ level: 1 }).run(),
+    },
+    {
+      icon: <Heading2 size={18} />,
+      label: 'عنوان رئيسي 2',
+      command: () => editor.chain().focus().toggleHeading({ level: 2 }).run(),
+    },
+    {
+      icon: <CheckSquare size={18} />,
+      label: 'قائمة مهام',
+      command: () => editor.chain().focus().toggleTaskList().run(),
+    },
+    {
+      icon: <List size={18} />,
+      label: 'قائمة نقطية',
+      command: () => editor.chain().focus().toggleBulletList().run(),
+    },
+    {
+      icon: <ListOrdered size={18} />,
+      label: 'قائمة رقمية',
+      command: () => editor.chain().focus().toggleOrderedList().run(),
+    },
+    {
+      icon: <Quote size={18} />,
+      label: 'اقتباس',
+      command: () => editor.chain().focus().toggleBlockquote().run(),
+    },
+  ];
+
+  return (
+    <div className="flex bg-[var(--bg-paper)] shadow-xl border border-[var(--border-color)] rounded-xl overflow-hidden p-1 gap-1">
+      {slashCommands.map((item, idx) => (
+        <button
+          key={idx}
+          onClick={item.command}
+          className="p-2 gap-2 rounded-lg text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[#cec9be] dark:hover:bg-[#2a2a2a] transition-colors"
+          title={item.label}
+        >
+          {item.icon}
+        </button>
+      ))}
+    </div>
   );
 }

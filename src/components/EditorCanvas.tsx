@@ -1,13 +1,18 @@
 import { useEditor, EditorContent } from '@tiptap/react';
+import { BubbleMenu, FloatingMenu } from '@tiptap/react/menus';
 import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
 import { Color } from '@tiptap/extension-color';
 import { TextStyle } from '@tiptap/extension-text-style';
 import { Underline } from '@tiptap/extension-underline';
-import { FormattingToolbar } from './FormattingToolbar';
+import TaskList from '@tiptap/extension-task-list';
+import TaskItem from '@tiptap/extension-task-item';
+import Strike from '@tiptap/extension-strike';
+import Link from '@tiptap/extension-link';
+import { FormattingToolbar, FloatingSlashMenu } from './FormattingToolbar';
 import { useAppStore } from '../store';
 import { useEffect, useState, useRef } from 'react';
-import { PanelRight, Lock, Unlock, Settings2, Type } from 'lucide-react';
+import { PanelRight, Lock, Unlock, Settings2 } from 'lucide-react';
 import { cn } from '../lib/utils';
 import TextareaAutosize from 'react-textarea-autosize';
 
@@ -21,8 +26,10 @@ export function EditorCanvas({ rightSidebarOpen, toggleRightSidebar, toggleLeftS
   const { notes, activeNoteId, updateNote, settings } = useAppStore();
   const activeNote = notes.find((n) => n.id === activeNoteId) || notes[0];
   const [readOnly, setReadOnly] = useState(false);
-  const [isToolbarOpen, setIsToolbarOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Calculate automatic line height
+  const autoLineHeight = Math.max(1.2, 1.5 - ((settings.baseFontSize - 16) / 8) * 0.3);
 
   const fontFeaturesTitle = [
     settings.openType.saltTitle && '"salt" 1',
@@ -54,6 +61,16 @@ export function EditorCanvas({ rightSidebarOpen, toggleRightSidebar, toggleLeftS
       TextStyle,
       Color,
       Underline,
+      TaskList,
+      TaskItem.configure({
+        nested: true,
+      }),
+      Strike,
+      Link.configure({
+        openOnClick: true,
+        autolink: true,
+        defaultProtocol: 'https',
+      }),
     ],
     content: activeNote?.content || '',
     editable: !readOnly,
@@ -106,15 +123,7 @@ export function EditorCanvas({ rightSidebarOpen, toggleRightSidebar, toggleLeftS
 
   return (
     <div 
-      className={cn(
-        "relative h-full flex flex-col transition-colors duration-300",
-        settings.layout === 'lined' ? "lined-bg" : ""
-      )}
-      style={{
-        backgroundSize: `100% ${lineSize}px`,
-        fontSize: `${settings.baseFontSize}px`,
-        lineHeight: settings.lineHeight,
-      }}
+      className="relative h-full flex flex-col transition-colors duration-300"
       ref={containerRef}
     >
       <style>{`
@@ -124,7 +133,7 @@ export function EditorCanvas({ rightSidebarOpen, toggleRightSidebar, toggleLeftS
       `}</style>
       
       {/* Top Header Controls (Sticky) */}
-      <header className="h-16 border-b border-[var(--border-color)] px-4 md:px-8 flex items-center w-full absolute top-0 left-0 bg-[var(--bg-paper)] z-10 shrink-0 gap-4">
+      <header className="h-16 border-b border-[var(--border-color)] px-4 md:px-8 flex items-center justify-between w-full absolute top-0 left-0 bg-[var(--bg-paper)] z-10 shrink-0 gap-4">
         
         {/* Right side controls (Menu + Title) */}
         <div className="flex items-center gap-2 md:gap-4 flex-1 min-w-0 h-full">
@@ -152,26 +161,6 @@ export function EditorCanvas({ rightSidebarOpen, toggleRightSidebar, toggleLeftS
 
         {/* Left side controls */}
         <div className="flex items-center gap-2 shrink-0 mt-1">
-          {!readOnly && (
-            <div className="relative ml-2">
-              <button 
-                onClick={() => setIsToolbarOpen(!isToolbarOpen)}
-                className={cn(
-                  "p-2 rounded-lg transition-colors",
-                  isToolbarOpen ? "bg-[#dcd8ce] dark:bg-[#2a2a2a] text-[var(--text-primary)]" : "text-[var(--text-secondary)] hover:bg-[#dcd8ce] dark:hover:bg-[#2a2a2a] hover:text-[var(--text-primary)]"
-                )}
-                title="تنسيق النص"
-              >
-                <Type size={20} />
-              </button>
-              
-              {isToolbarOpen && (
-                <div className="absolute top-full left-0 mt-2 flex flex-col items-center gap-1 bg-[var(--bg-paper)] rounded-xl border border-[var(--border-color)] p-2 shadow-xl z-50 min-w-[3rem]">
-                  <FormattingToolbar editor={editor} vertical />
-                </div>
-              )}
-            </div>
-          )}
           <button 
             onClick={() => setReadOnly(!readOnly)}
             className="p-2 hover:bg-[#dcd8ce] dark:hover:bg-[#2a2a2a] rounded-lg text-[var(--text-secondary)] transition-colors"
@@ -188,23 +177,34 @@ export function EditorCanvas({ rightSidebarOpen, toggleRightSidebar, toggleLeftS
         </div>
       </header>
 
-      {/* Main Editor Area */}
       <div className="flex-1 overflow-hidden px-4 md:px-8 lg:px-12 pt-2 md:pt-4 pb-0 mt-16 w-full h-full relative" ref={containerRef}>
         <div 
           className={cn(
             "w-full h-full overflow-y-auto scrollbar-hide opacity-90",
-            settings.layout === 'lined' ? "lined-paper" : ""
+            settings.layout === 'lined' ? "lined-paper" : "",
+            settings.layout === 'dotted' ? "dotted-paper" : ""
           )}
           style={{
-            backgroundSize: `100% calc(${settings.baseFontSize}px * ${settings.lineHeight})`,
+            backgroundSize: settings.layout === 'lined' ? `100% calc(${settings.baseFontSize}px * ${autoLineHeight})` : settings.layout === 'dotted' ? `calc(${settings.baseFontSize}px * ${autoLineHeight}) calc(${settings.baseFontSize}px * ${autoLineHeight})` : undefined,
             fontSize: `${settings.baseFontSize}px`,
-            lineHeight: settings.lineHeight,
+            lineHeight: autoLineHeight,
             fontFeatureSettings: fontFeaturesBody || 'normal',
             fontFamily: settings.fontFamily,
             fontWeight: settings.fontWeight,
-            paddingTop: `calc(${settings.baseFontSize * settings.lineHeight}px * 1 - ${settings.baseFontSize * 0.2}px)`, /* adjust manually to align text to grid */
+            paddingTop: `calc(${settings.baseFontSize * autoLineHeight}px * 1)`,
+            backgroundAttachment: 'local'
           }}
         >
+          {!readOnly && (
+            <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }} className="flex overflow-hidden items-center bg-[var(--bg-paper)] rounded-xl border border-[var(--border-color)] p-1 shadow-xl z-50">
+              <FormattingToolbar editor={editor} />
+            </BubbleMenu>
+          )}
+          {!readOnly && (
+            <FloatingMenu editor={editor} tippyOptions={{ duration: 100, placement: 'right' }} className="flex items-center gap-1 z-50">
+              <FloatingSlashMenu editor={editor} />
+            </FloatingMenu>
+          )}
           <EditorContent 
             editor={editor} 
             className="w-full h-full pb-32"
